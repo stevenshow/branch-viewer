@@ -35,7 +35,6 @@ export default function Home() {
 							index={index}
 						/>
 					))}
-					;
 				</div>
 			)}
 		</div>
