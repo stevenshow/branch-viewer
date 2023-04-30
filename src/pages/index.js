@@ -74,25 +74,25 @@ export default function Home() {
 
 	const getStatusText = (test, production) => {
 		if (test.aheadBy > 0 || production.aheadBy > 0) {
-			return 'Branch needs to be looked at because it is ahead of the base branch';
+			return 'Review needed: Branch ahead of base';
 		} else if (test.behindBy === 0 && production.behindBy === 0) {
-			return 'Project is up to date';
+			return 'Up to date';
 		} else if (test.behindBy > 0 && production.behindBy > 0) {
-			return 'Working on changes to be pushed to staging';
+			return 'Changes in progress for staging';
 		} else if (test.behindBy === 0 && production.behindBy > 0) {
-			return 'Pending approval in staging';
+			return 'Awaiting staging approval';
 		}
 	};
 
 	const getStatusColorClass = (statusText) => {
 		switch (statusText) {
-			case 'Project is up to date':
+			case 'Up to date':
 				return 'text-green-500';
-			case 'Working on changes to be pushed to staging':
+			case 'Changes in progress for staging':
 				return 'text-yellow-500';
-			case 'Pending approval in staging':
+			case 'Awaiting staging approval':
 				return 'text-blue-500';
-			case 'Branch needs to be looked at because it is ahead of the base branch':
+			case 'Review needed: Branch ahead of base':
 				return 'text-red-500';
 			default:
 				return '';
