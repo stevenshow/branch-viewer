@@ -120,7 +120,7 @@ export default function Home() {
 					return (
 						<div
 							key={repoName}
-							className={`grid grid-cols-3 gap-4 p-4 ${
+							className={`grid grid-cols-3 gap-4 p-5 ${
 								index !== 0 ? 'border-t border-gray-300' : ''
 							}`}
 						>
