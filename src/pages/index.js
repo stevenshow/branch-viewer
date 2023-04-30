@@ -1,110 +1,21 @@
 import { useState } from 'react';
+import Repo from '../components/repo';
+import useBranchData from '../services/useBranchData';
+import { getStatusText, getStatusColorClass } from '../utils/statusUtils';
+import { repos, repoOwner } from '../data/repoConfig';
 
 export default function Home() {
-	const [branchData, setBranchData] = useState({});
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const [repos, setRepos] = useState([
-		{
-			repoName: 'ASSR-pptax',
-			base: 'master',
-			branch1: 'staging',
-			branch2: 'production',
-		},
-		{
-			repoName: 'AUD-agenda',
-			base: 'master',
-			branch1: 'test',
-			branch2: 'production',
-		},
-		{
-			repoName: 'CJC-assessment-form-v2',
-			base: 'main',
-			branch1: 'test',
-			branch2: 'production',
-		},
-		{
-			repoName: 'ROS-EFiling',
-			base: 'master',
-			branch1: 'test',
-			branch2: 'production',
-		},
-		{
-			repoName: 'TREAS-appeal-web-forms',
-			base: 'master',
-			branch1: 'staging',
-			branch2: 'production',
-		},
-		{
-			repoName: 'TREAS-mortgage-tax-payment',
-			base: 'master',
-			branch1: 'staging',
-			branch2: 'production',
-		},
-		{
-			repoName: 'UCSO-EM-emergency-news-feed',
-			base: 'master',
-			branch1: 'staging',
-			branch2: 'production',
-		},
-	]);
-	const repoOwner = 'ITDeptUtahCountyGovernment';
-
-	const handleButtonClick = async () => {
-		setIsLoading(true);
-		setError(null);
-
-		try {
-			const promises = repos.map((repo) =>
-				fetch(
-					`/api/git?repoOwner=${repoOwner}&repoName=${repo.repoName}&base=${repo.base}&&branch1=${repo.branch1}&branch2=${repo.branch2}`
-				).then((response) => response.json())
-			);
-			const data = await Promise.all(promises);
-			const combinedData = data.reduce((acc, repoData) => {
-				return { ...acc, ...repoData };
-			}, {});
-			setBranchData(combinedData);
-		} catch (error) {
-			setError(error);
-		}
-
-		setIsLoading(false);
-	};
-
-	const getStatusText = (test, production) => {
-		if (test.aheadBy > 0 || production.aheadBy > 0) {
-			return 'Review needed: Branch ahead of base';
-		} else if (test.behindBy === 0 && production.behindBy === 0) {
-			return 'Up to date';
-		} else if (test.behindBy > 0 && production.behindBy > 0) {
-			return 'Changes in progress for staging';
-		} else if (test.behindBy === 0 && production.behindBy > 0) {
-			return 'Awaiting staging approval';
-		}
-	};
-
-	const getStatusColorClass = (statusText) => {
-		switch (statusText) {
-			case 'Up to date':
-				return 'text-green-500';
-			case 'Changes in progress for staging':
-				return 'text-yellow-500';
-			case 'Awaiting staging approval':
-				return 'text-blue-500';
-			case 'Review needed: Branch ahead of base':
-				return 'text-red-500';
-			default:
-				return '';
-		}
-	};
+	const { branchData, isLoading, error, handleButtonClick } = useBranchData(
+		repos,
+		repoOwner
+	);
 
 	return (
 		<div className='flex flex-col'>
 			<h1 className='text-2xl mb-4 m-auto'>Red Team Branch Comparisons</h1>
 			<button
 				onClick={handleButtonClick}
-				className='border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition m-auto'
+				className='border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:border-opacity-70 hover:text-opacity-70 transition m-auto'
 			>
 				Fetch branch data
 			</button>
@@ -112,65 +23,19 @@ export default function Home() {
 			{error && <div className='mt-4 text-red-500'>Error: {error.message}</div>}
 			{Object.keys(branchData).length > 0 && (
 				<div className='mt-4 m-auto border-2 border-gray-300'>
-					{Object.entries(branchData).map(([repoName, branches], index) => {
-						const branch1Data =
-							branches[
-								repos.find((repo) => repo.repoName === repoName).branch1
-							];
-						const branch2Data =
-							branches[
-								repos.find((repo) => repo.repoName === repoName).branch2
-							];
-
-						return (
-							<div
-								key={repoName}
-								className={`grid grid-cols-3 gap-4 p-5 ${
-									index !== 0 ? 'border-t border-gray-300' : ''
-								}`}
-							>
-								<div>
-									<a
-										href={`https://github.com/${repoOwner}/${repoName}`}
-										className={`text-2xl ${getStatusColorClass(
-											getStatusText(branch1Data, branch2Data)
-										)} hover:text-opacity-70`}
-										target='_blank'
-									>
-										{repoName}
-									</a>
-									<div className='text-xl'>
-										{getStatusText(branch1Data, branch2Data)}
-									</div>
-								</div>
-								{Object.entries(branches).map(([branchName, branch]) => (
-									<div key={branchName} className='flex flex-col m-auto'>
-										<div className='flex justify-center flex-col'>
-											<a
-												href={`https://github.com/${repoOwner}/${repoName}/tree/${branchName}`}
-												className='text-xl mb-1 font-bold hover:text-gray-300 text-center'
-												target='_blank'
-											>
-												{branchName}
-											</a>
-											<div className='flex m-auto text-xl'>
-												<p
-													className={branch.behindBy > 0 ? 'text-red-500' : ''}
-												>
-													{branch.behindBy} ←
-												</p>
-												<p
-													className={branch.aheadBy > 0 ? 'text-green-500' : ''}
-												>
-													→ {branch.aheadBy}
-												</p>
-											</div>
-										</div>
-									</div>
-								))}
-							</div>
-						);
-					})}
+					{Object.entries(branchData).map(([repoName, branches], index) => (
+						<Repo
+							key={repoName}
+							repoName={repoName}
+							branches={branches}
+							repoOwner={repoOwner}
+							getStatusColorClass={getStatusColorClass}
+							getStatusText={getStatusText}
+							repos={repos}
+							index={index}
+						/>
+					))}
+					;
 				</div>
 			)}
 		</div>
