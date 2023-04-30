@@ -143,7 +143,7 @@ export default function Home() {
 									<div className='flex justify-center flex-col'>
 										<a
 											href={`https://github.com/${repoOwner}/${repoName}/tree/${branchName}`}
-											className='text-xl mb-1 font-bold hover:text-gray-300'
+											className='text-xl mb-1 font-bold hover:text-gray-300 text-center'
 											target='_blank'
 										>
 											{branchName}
