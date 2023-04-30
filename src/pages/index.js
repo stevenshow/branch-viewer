@@ -101,16 +101,16 @@ export default function Home() {
 
 	return (
 		<div className='flex flex-col'>
-			<h1 className='text-2xl mb-4 m-auto'>Branch Comparisons</h1>
+			<h1 className='text-2xl mb-4 m-auto'>Red Team Branch Comparisons</h1>
 			<button
 				onClick={handleButtonClick}
 				className='border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition m-auto'
 			>
 				Fetch branch data
 			</button>
-			{isLoading && <div className='mt-4'>Loading...</div>}
+			{isLoading && <div className='mt-4 m-auto'>Loading...</div>}
 			{error && <div className='mt-4 text-red-500'>Error: {error.message}</div>}
-			<div className='mt-4'>
+			<div className='mt-4 m-auto border-2 border-gray-300'>
 				{Object.entries(branchData).map(([repoName, branches], index) => {
 					const branch1Data =
 						branches[repos.find((repo) => repo.repoName === repoName).branch1];
@@ -129,12 +129,12 @@ export default function Home() {
 									href={`https://github.com/${repoOwner}/${repoName}`}
 									className={`text-2xl ${getStatusColorClass(
 										getStatusText(branch1Data, branch2Data)
-									)}`}
+									)} hover:text-opacity-70`}
 									target='_blank'
 								>
 									{repoName}
 								</a>
-								<div className='text-base'>
+								<div className='text-xl'>
 									{getStatusText(branch1Data, branch2Data)}
 								</div>
 							</div>
@@ -143,12 +143,12 @@ export default function Home() {
 									<div className='flex justify-center flex-col'>
 										<a
 											href={`https://github.com/${repoOwner}/${repoName}/tree/${branchName}`}
-											className='text-xl mb-1'
+											className='text-xl mb-1 font-bold hover:text-gray-300'
 											target='_blank'
 										>
 											{branchName}
 										</a>
-										<div className='flex m-auto'>
+										<div className='flex m-auto text-xl'>
 											<p className={branch.behindBy > 0 ? 'text-red-500' : ''}>
 												{branch.behindBy} ←
 											</p>
