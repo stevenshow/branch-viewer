@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/core";
+import { Octokit } from '@octokit/core';
 
 export default async function handler(req, res) {
   const { repoOwner, repoName, base, branch1, branch2 } = req.query;
@@ -13,12 +13,12 @@ export default async function handler(req, res) {
     const baseBranch = base;
 
     const comparisonPromises = branchNames.map((branchName) =>
-      octokit.request("GET /repos/{owner}/{repo}/compare/{base}...{head}", {
+      octokit.request('GET /repos/{owner}/{repo}/compare/{base}...{head}', {
         owner: repoOwner,
         repo: repoName,
         base: baseBranch,
         head: branchName,
-      })
+      }),
     );
 
     const comparisons = await Promise.all(comparisonPromises);
@@ -41,6 +41,6 @@ export default async function handler(req, res) {
     console.error(error);
     res
       .status(500)
-      .json({ error: "An error occurred while fetching the branch data" });
+      .json({ error: 'An error occurred while fetching the branch data' });
   }
 }

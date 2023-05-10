@@ -16,14 +16,14 @@ const Repo = ({
     <div
       key={repoName}
       className={`grid grid-cols-3 gap-4 p-5 ${
-        index !== 0 ? "border-t border-gray-300" : ""
+        index !== 0 ? 'border-t border-gray-300' : ''
       }`}
     >
       <div>
         <a
           href={`https://github.com/${repoOwner}/${repoName}`}
           className={`text-2xl ${getStatusColorClass(
-            getStatusText(branch1Data, branch2Data)
+            getStatusText(branch1Data, branch2Data),
           )} hover:text-opacity-70`}
           target="_blank"
         >
@@ -42,10 +42,10 @@ const Repo = ({
               {branchName}
             </a>
             <div className="m-auto flex text-xl">
-              <p className={branch.behindBy > 0 ? "text-red-500" : ""}>
+              <p className={branch.behindBy > 0 ? 'text-red-500' : ''}>
                 {branch.behindBy} ←
               </p>
-              <p className={branch.aheadBy > 0 ? "text-green-500" : ""}>
+              <p className={branch.aheadBy > 0 ? 'text-green-500' : ''}>
                 → {branch.aheadBy}
               </p>
             </div>
