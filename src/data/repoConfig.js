@@ -8,7 +8,7 @@ export const repos = [
   {
     repoName: 'AUD-agenda-v2',
     base: 'master',
-    branch1: 'test',
+    branch1: 'staging',
     branch2: 'production',
   },
   {
