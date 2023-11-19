@@ -1,11 +1,12 @@
 export const getStatusText = (staging, production) => {
-  if (staging?.aheadBy > 0 || production?.aheadBy > 0) {
+  console.log(staging, production);
+  if (staging?.ahead_by > 0 || production?.ahead_by > 0) {
     return 'Review needed: Branch ahead of base';
-  } else if (staging?.behindBy === 0 && production?.behindBy === 0) {
+  } else if (staging?.behind_by === 0 && production?.behind_by === 0) {
     return 'Up to date';
-  } else if (staging?.behindBy > 0 && production?.behindBy > 0) {
+  } else if (staging?.behind_by > 0 && production?.behind_by > 0) {
     return 'Changes in progress for staging';
-  } else if (staging?.behindBy === 0 && production?.behindBy > 0) {
+  } else if (staging?.behind_by === 0 && production?.behind_by > 0) {
     return 'Awaiting staging approval';
   }
 };

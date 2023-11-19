@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Repo from '../components/repo';
-import useBranchData from '../services/useBranchData';
+import useRepoData from '../services/useRepoData';
 import { getStatusText, getStatusColorClass } from '../utils/statusUtils';
 import { teamNames, repoOwner } from '../data/repoConfig';
 import DropDown from '@/components/dropdown';
 
 export default function Home() {
   const [selected, setSelected] = useState('Red Team');
-  const { branchData, isLoading, error, handleButtonClick } = useBranchData(
+  const { repoData, isLoading, error, handleButtonClick } = useRepoData(
     teamNames[selected],
     repoOwner,
   );
@@ -26,13 +26,13 @@ export default function Home() {
         {isLoading && <div className="m-auto mt-4">Loading...</div>}
       </div>
       {error && <div className="mt-4 text-red-500">Error: {error.message}</div>}
-      {Object.keys(branchData).length > 0 && (
+      {Object.keys(repoData).length > 0 && (
         <div className="m-auto mt-4 border-2 border-gray-300">
-          {Object.entries(branchData).map(([repoName, branches], index) => (
+          {Object.entries(repoData).map(([repoName, data], index) => (
             <Repo
               key={repoName}
               repoName={repoName}
-              branches={branches}
+              data={data}
               repoOwner={repoOwner}
               getStatusColorClass={getStatusColorClass}
               getStatusText={getStatusText}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-const useBranchData = (team, repoOwner) => {
-  const [branchData, setBranchData] = useState({});
+const useRepoData = (team, repoOwner) => {
+  const [repoData, setRepoData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,7 +14,7 @@ const useBranchData = (team, repoOwner) => {
         `/api/git?repoOwner=${repoOwner}&team=${team}`,
       ).then((response) => response.json());
 
-      setBranchData(data);
+      setRepoData(data);
     } catch (error) {
       setError(error);
     }
@@ -22,7 +22,7 @@ const useBranchData = (team, repoOwner) => {
     setIsLoading(false);
   };
 
-  return { branchData, isLoading, error, handleButtonClick };
+  return { repoData, isLoading, error, handleButtonClick };
 };
 
-export default useBranchData;
+export default useRepoData;

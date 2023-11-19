@@ -1,13 +1,13 @@
 const Repo = ({
   repoName,
-  branches,
+  data,
   repoOwner,
   getStatusColorClass,
   getStatusText,
   index,
 }) => {
-  const stagingBranchData = branches.staging ?? branches.test;
-  const productionBranchData = branches.production;
+  const stagingBranchData = data.branches.staging ?? data.branches.test;
+  const productionBranchData = data.branches.production;
 
   return (
     <div
@@ -30,7 +30,7 @@ const Repo = ({
           {getStatusText(stagingBranchData, productionBranchData)}
         </div>
       </div>
-      {Object.entries(branches).map(([branchName, branch]) => (
+      {Object.entries(data.branches).map(([branchName, branch]) => (
         <div key={branchName} className="m-auto flex flex-col">
           <div className="flex flex-col justify-center">
             <a
@@ -41,11 +41,11 @@ const Repo = ({
               {branchName}
             </a>
             <div className="m-auto flex text-xl">
-              <p className={branch?.behindBy > 0 ? 'text-red-500' : ''}>
-                {branch.behindBy} ←
+              <p className={branch?.behind_by > 0 ? 'text-red-500' : ''}>
+                {branch.behind_by} ←
               </p>
-              <p className={branch?.aheadBy > 0 ? 'text-green-500' : ''}>
-                → {branch.aheadBy}
+              <p className={branch?.ahead_by > 0 ? 'text-green-500' : ''}>
+                → {branch.ahead_by}
               </p>
             </div>
           </div>
