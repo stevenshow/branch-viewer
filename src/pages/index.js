@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <main className="m-auto my-4 flex h-full flex-col">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-4 sm:flex-col">
+      <div className="mb-4 flex flex-col flex-wrap items-center justify-between gap-4">
         <h1 className="text- m-auto text-2xl">Branch Comparisons</h1>
         <div className="m-auto flex items-center gap-4">
           <DropDown selected={selected} setSelected={setSelected} />
@@ -25,7 +25,7 @@ export default function Home() {
             Fetch branch data
           </button>
         </div>
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <div className="flex">Loading...</div>}
       </div>
       {error && <div className="mt-4 text-red-500">Error: {error.message}</div>}
       {Object.keys(repoData).length > 0 && (
