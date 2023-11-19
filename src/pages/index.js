@@ -4,6 +4,7 @@ import useRepoData from '../services/useRepoData';
 import { getStatusText, getStatusColorClass } from '../utils/statusUtils';
 import { teamNames, repoOwner } from '../data/repoConfig';
 import DropDown from '@/components/dropdown';
+import LoadingComponent from '@/components/loading';
 
 export default function Home() {
   const [selected, setSelected] = useState('Red Team');
@@ -25,7 +26,7 @@ export default function Home() {
             Fetch branch data
           </button>
         </div>
-        {isLoading && <div className="flex">Loading...</div>}
+        {isLoading && <LoadingComponent />}
       </div>
       {error && <div className="mt-4 text-red-500">Error: {error.message}</div>}
       {Object.keys(repoData).length > 0 && (
