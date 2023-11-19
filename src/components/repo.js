@@ -39,7 +39,7 @@ const Repo = ({
               <div className="flex flex-col justify-center">
                 <a
                   href={`https://github.com/${repoOwner}/${repoName}/tree/${branchName}`}
-                  className="mb-1 text-center text-xl font-bold text-white/90 hover:text-gray-300"
+                  className="mb-1 text-center text-xl font-bold text-slate-300 hover:text-opacity-70"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
