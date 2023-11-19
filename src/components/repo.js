@@ -46,10 +46,10 @@ const Repo = ({
                   {branchName}
                 </a>
                 <div className="m-auto flex text-xl">
-                  <p className={branch?.behind_by > 0 ? 'text-red-500' : ''}>
+                  <p className={branch?.behind_by > 0 ? 'text-red-400' : ''}>
                     {branch.behind_by} ←
                   </p>
-                  <p className={branch?.ahead_by > 0 ? 'text-green-500' : ''}>
+                  <p className={branch?.ahead_by > 0 ? 'text-green-400' : ''}>
                     → {branch.ahead_by}
                   </p>
                 </div>

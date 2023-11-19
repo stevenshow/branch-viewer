@@ -19,7 +19,7 @@ export default function Home() {
         <DropDown selected={selected} setSelected={setSelected} />
         <button
           onClick={handleButtonClick}
-          className="m-auto rounded border-2 border-blue-500 px-4 py-2 text-blue-500 transition hover:border-opacity-70 hover:text-opacity-70"
+          className="m-auto rounded border-2 border-blue-400 px-4 py-2 text-blue-400 transition hover:border-opacity-70 hover:text-opacity-70"
         >
           Fetch branch data
         </button>

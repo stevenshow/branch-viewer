@@ -28,3 +28,8 @@
 body {
   @apply text-white bg-slate-900/90;
 }
+
+.blur-border {
+  box-shadow: 0 0 0 2px red; /* Replace 'red' with your desired border color */
+  filter: blur(1px);
+}
