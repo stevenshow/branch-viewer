@@ -13,7 +13,7 @@ export default function Home() {
   );
 
   return (
-    <div className="m-auto flex h-full flex-col bg-slate-900/90">
+    <div className="m-auto flex h-full flex-col">
       <div className="m-auto flex flex-col gap-4">
         <h1 className="mb-auto text-2xl">Branch Comparisons</h1>
         <DropDown selected={selected} setSelected={setSelected} />
