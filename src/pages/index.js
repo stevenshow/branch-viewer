@@ -13,17 +13,19 @@ export default function Home() {
   );
 
   return (
-    <div className="m-auto flex h-full flex-col">
-      <div className="m-auto flex flex-col gap-4">
-        <h1 className="mb-auto text-2xl">Branch Comparisons</h1>
-        <DropDown selected={selected} setSelected={setSelected} />
-        <button
-          onClick={handleButtonClick}
-          className="m-auto rounded border-2 border-blue-400 px-4 py-2 text-blue-400 transition hover:border-opacity-70 hover:text-opacity-70"
-        >
-          Fetch branch data
-        </button>
-        {isLoading && <div className="m-auto mt-4">Loading...</div>}
+    <main className="m-auto my-4 flex h-full flex-col">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-4 sm:flex-col">
+        <h1 className="text- m-auto text-2xl">Branch Comparisons</h1>
+        <div className="m-auto flex items-center gap-4">
+          <DropDown selected={selected} setSelected={setSelected} />
+          <button
+            onClick={handleButtonClick}
+            className="rounded border border-blue-400 px-4 py-1.5 text-blue-300 transition hover:border-opacity-70 hover:text-opacity-70"
+          >
+            Fetch branch data
+          </button>
+        </div>
+        {isLoading && <div>Loading...</div>}
       </div>
       {error && <div className="mt-4 text-red-500">Error: {error.message}</div>}
       {Object.keys(repoData).length > 0 && (
@@ -41,6 +43,6 @@ export default function Home() {
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }
