@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useBranchData = (repos, repoOwner) => {
+const useBranchData = (team, repoOwner) => {
   const [branchData, setBranchData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,16 +10,11 @@ const useBranchData = (repos, repoOwner) => {
     setError(null);
 
     try {
-      const promises = repos.map((repo) =>
-        fetch(
-          `/api/git?repoOwner=${repoOwner}&repoName=${repo.repoName}&base=${repo.base}&&branch1=${repo.branch1}&branch2=${repo.branch2}`,
-        ).then((response) => response.json()),
-      );
-      const data = await Promise.all(promises);
-      const combinedData = data.reduce((acc, repoData) => {
-        return { ...acc, ...repoData };
-      }, {});
-      setBranchData(combinedData);
+      const data = await fetch(
+        `/api/git?repoOwner=${repoOwner}&team=${team}`,
+      ).then((response) => response.json());
+
+      setBranchData(data);
     } catch (error) {
       setError(error);
     }
