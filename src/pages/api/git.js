@@ -23,94 +23,85 @@ export default async function handler(req, res) {
       },
     );
 
-    const baseBranches = repos.data.map((repo) => ({
-      name: repo.name,
-      base_branch: repo.default_branch,
-    }));
-
-    const comparisonBranchesPromises = baseBranches.map(async (branch) => {
-      const response = await octokit.request(
-        `GET /repos/${repoOwner}/${branch.name}/branches`,
+    const comparisonBranchesPromises = repos.data.map(async (repo) => {
+      // Fetch branches
+      const branchResponse = await octokit.request(
+        `GET /repos/${repoOwner}/${repo.name}/branches`,
         {
           owner: repoOwner,
-          repo: branch.name,
+          repo: repo.name,
           per_page: 100,
         },
       );
 
-      // Categorize branches
-      const categorizedBranches = response.data.reduce((acc, branch) => {
+      // Fetch open pull request count
+      const pullRequestResponse = await octokit.request(
+        `GET /repos/${repoOwner}/${repo.name}/pulls`,
+        {
+          owner: repoOwner,
+          repo: repo.name,
+          per_page: 1,
+          state: 'open',
+        },
+      );
+
+      // Extract the total count of open pull requests from response headers
+      const pullRequestCount = pullRequestResponse.headers['link']
+        ? parseInt(
+            pullRequestResponse.headers['link'].match(
+              /&page=(\d+)>; rel="last"/,
+            )[1],
+          )
+        : pullRequestResponse.data.length;
+
+      // Categorize branches and get ahead/behind counts
+      let categorizedBranches = {};
+      for (const branch of branchResponse.data) {
         const category = categorizeBranch(branch);
         if (category) {
-          acc[category] = acc[category] || [];
-          acc[category].push(branch.name);
-        }
-        return acc;
-      }, {});
-
-      return {
-        ...branch,
-        branches: categorizedBranches,
-        branch_count: response.data.length,
-      };
-    });
-
-    const comparisonBranches = await Promise.all(comparisonBranchesPromises);
-    console.log(comparisonBranches);
-    // Process each repository's branch data for comparisons
-    const comparisonPromises = comparisonBranches.flatMap((repoBranch) =>
-      Object.entries(repoBranch.branches).flatMap(([category, branches]) =>
-        branches.map((branchName) =>
-          octokit
-            .request('GET /repos/{owner}/{repo}/compare/{base}...{head}', {
+          const comparison = await octokit.request(
+            `GET /repos/${repoOwner}/${repo.name}/compare/${repo.default_branch}...${branch.name}`,
+            {
               owner: repoOwner,
-              repo: repoBranch.name,
-              base: repoBranch.base_branch,
-              head: branchName,
-            })
-            .then((response) => ({
-              repo: repoBranch.name,
-              category,
-              branch: branchName,
-              data: response.data,
-            })),
-        ),
-      ),
-    );
+              repo: repo.name,
+            },
+          );
 
-    const comparisons = await Promise.all(comparisonPromises);
-
-    const branchData = comparisons.reduce(
-      (acc, { repo, branch, category, data }) => {
-        const aheadBy = data.ahead_by;
-        const behindBy = data.behind_by;
-
-        // Initialize the repository object if it doesn't exist
-        if (!acc[repo]) {
-          acc[repo] = {};
+          categorizedBranches[category] = {
+            ahead_by: comparison.data.ahead_by,
+            behind_by: comparison.data.behind_by,
+          };
         }
+      }
 
-        // Assign the comparison data to the branch under the appropriate category
-        acc[repo][category] = { aheadBy, behindBy };
-
-        return acc;
-      },
-      {},
-    );
-
-    // Sort categories and place 'production' last
-    for (const repo in branchData) {
-      const sortedCategories = Object.entries(branchData[repo]).sort(
+      // Sort categories to place 'production' last
+      const sortedCategories = Object.entries(categorizedBranches).sort(
         ([keyA], [keyB]) => {
           if (keyA === 'production') return 1;
           if (keyB === 'production') return -1;
           return 0;
         },
       );
+      categorizedBranches = Object.fromEntries(sortedCategories);
 
-      // Update the repository data with the sorted categories
-      branchData[repo] = Object.fromEntries(sortedCategories);
-    }
+      return {
+        repo: repo.name,
+        branches: categorizedBranches,
+        branch_count: branchResponse.data.length,
+        open_pull_request_count: pullRequestCount,
+      };
+    });
+
+    const comparisonBranches = await Promise.all(comparisonBranchesPromises);
+
+    // Convert the comparisonBranches array to a structured object
+    const branchData = comparisonBranches.reduce(
+      (acc, { repo, branches, branch_count, open_pull_request_count }) => {
+        acc[repo] = { branches, branch_count, open_pull_request_count };
+        return acc;
+      },
+      {},
+    );
 
     res.status(200).json(branchData);
   } catch (error) {

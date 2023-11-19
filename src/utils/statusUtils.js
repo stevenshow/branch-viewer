@@ -1,11 +1,11 @@
 export const getStatusText = (staging, production) => {
-  if (staging?.aheadBy > 0 || production?.aheadBy > 0) {
+  if (staging?.ahead_by > 0 || production?.ahead_by > 0) {
     return 'Review needed: Branch ahead of base';
-  } else if (staging?.behindBy === 0 && production?.behindBy === 0) {
+  } else if (staging?.behind_by === 0 && production?.behind_by === 0) {
     return 'Up to date';
-  } else if (staging?.behindBy > 0 && production?.behindBy > 0) {
+  } else if (staging?.behind_by > 0 && production?.behind_by > 0) {
     return 'Changes in progress for staging';
-  } else if (staging?.behindBy === 0 && production?.behindBy > 0) {
+  } else if (staging?.behind_by === 0 && production?.behind_by > 0) {
     return 'Awaiting staging approval';
   }
 };
@@ -28,12 +28,12 @@ export const getStatusColorClass = (statusText) => {
 export const getBubbleColor = (team) => {
   switch (team) {
     case 'Red Team':
-      return 'bg-red-500';
+      return 'bg-red-600/70 border border-red-400';
     case 'Green Team':
-      return 'bg-green-500';
+      return 'bg-green-600/70 border border-green-400';
     case 'Gold Team':
-      return 'bg-yellow-500';
+      return 'bg-yellow-600/70 border border-yellow-400';
     case 'Blue Team':
-      return 'bg-blue-500';
+      return 'bg-blue-600/70 border border-blue-400';
   }
 };
