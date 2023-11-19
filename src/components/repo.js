@@ -9,7 +9,7 @@ const Repo = ({
   const stagingBranchData = data.branches.staging ?? data.branches.test;
   const productionBranchData = data.branches.production;
   const hasBranches = Object.keys(data.branches).length > 0;
-  console.log(repoName, hasBranches);
+
   return (
     <>
       {hasBranches && (
