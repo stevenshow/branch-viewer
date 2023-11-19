@@ -1,5 +1,4 @@
 export const getStatusText = (staging, production) => {
-  console.log(staging, production);
   if (staging?.ahead_by > 0 || production?.ahead_by > 0) {
     return 'Review needed: Branch ahead of base';
   } else if (staging?.behind_by === 0 && production?.behind_by === 0) {
