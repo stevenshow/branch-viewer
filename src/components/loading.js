@@ -7,7 +7,7 @@ const CircularLoader = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setRotation((prev) => prev + 360); // Increment rotation
-    }, 400); // Match this duration to the spinTransition duration
+    }, 500); // Match this duration to the spinTransition duration
 
     return () => clearInterval(interval);
   }, []);
@@ -15,7 +15,7 @@ const CircularLoader = () => {
   const spinTransition = {
     loop: Infinity,
     ease: 'linear',
-    duration: 1,
+    duration: 0.5,
   };
 
   return (
