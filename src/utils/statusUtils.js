@@ -21,7 +21,7 @@ export const getStatusColorClass = (statusText) => {
     case 'Review needed: Branch ahead of base':
       return 'text-red-400';
     default:
-      return '';
+      return 'text-slate-200';
   }
 };
 
