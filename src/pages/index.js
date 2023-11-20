@@ -30,7 +30,7 @@ export default function Home() {
       </div>
       {error && <div className="mt-4 text-red-500">Error: {error.message}</div>}
       {Object.keys(repoData).length > 0 && (
-        <div className="m-auto mt-4 rounded-md border border-gray-300">
+        <div className="m-auto mt-4 rounded-md border border-gray-300 bg-slate-900/60">
           {Object.entries(repoData).map(([repoName, data]) => (
             <Repo
               key={repoName}
