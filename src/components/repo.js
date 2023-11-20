@@ -39,13 +39,13 @@ const Repo = ({
           </article>
           <dl className="m-auto flex flex-col">
             <div className="gap-2 sm:grid sm:grid-cols-2">
-              <dt className="text-lg">Open PRs:</dt>
+              <dt className="text-lg text-slate-200">Open PRs:</dt>
               <dd className="text-lg font-semibold">
                 {open_pull_request_count}
               </dd>
             </div>
             <div className="gap-2 sm:grid sm:grid-cols-2">
-              <dt className="text-lg">Branches:</dt>
+              <dt className="text-lg text-slate-200">Branches:</dt>
               <dd className="text-lg font-semibold">{branch_count}</dd>
             </div>
           </dl>
