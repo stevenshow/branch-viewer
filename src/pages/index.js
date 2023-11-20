@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <main className="m-auto my-4 flex h-full flex-col">
       <div className="mb-4 flex flex-col flex-wrap items-center justify-between gap-4">
-        <h1 className="text- m-auto text-2xl">Branch Comparisons</h1>
+        <h1 className="m-auto text-2xl text-slate-100">Branch Comparisons</h1>
         <div className="m-auto flex items-center gap-4">
           <DropDown selected={selected} setSelected={setSelected} />
           <button
@@ -30,8 +30,8 @@ export default function Home() {
       </div>
       {error && <div className="mt-4 text-red-500">Error: {error.message}</div>}
       {Object.keys(repoData).length > 0 && (
-        <div className="m-auto mt-4 border-2 border-gray-300">
-          {Object.entries(repoData).map(([repoName, data], index) => (
+        <div className="m-auto mt-4 rounded-md border border-gray-300 bg-slate-900/60">
+          {Object.entries(repoData).map(([repoName, data]) => (
             <Repo
               key={repoName}
               repoName={repoName}
@@ -39,7 +39,6 @@ export default function Home() {
               repoOwner={repoOwner}
               getStatusColorClass={getStatusColorClass}
               getStatusText={getStatusText}
-              index={index}
             />
           ))}
         </div>

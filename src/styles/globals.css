@@ -33,3 +33,8 @@ body {
   box-shadow: 0 0 0 2px red; /* Replace 'red' with your desired border color */
   filter: blur(1px);
 }
+
+.repo:not(:first-child) {
+  @apply border-t border-gray-300;
+}
+

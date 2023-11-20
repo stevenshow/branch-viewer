@@ -13,15 +13,15 @@ export const getStatusText = (staging, production) => {
 export const getStatusColorClass = (statusText) => {
   switch (statusText) {
     case 'Up to date':
-      return 'text-green-500';
+      return 'text-green-400';
     case 'Changes in progress for staging':
-      return 'text-yellow-500';
+      return 'text-yellow-400';
     case 'Awaiting staging approval':
-      return 'text-blue-500';
+      return 'text-blue-400';
     case 'Review needed: Branch ahead of base':
-      return 'text-red-500';
+      return 'text-red-400';
     default:
-      return '';
+      return 'text-slate-200';
   }
 };
 
