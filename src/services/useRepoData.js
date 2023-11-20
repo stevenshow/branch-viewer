@@ -10,6 +10,7 @@ const useRepoData = (team, repoOwner) => {
     setError(null);
 
     try {
+      setRepoData({});
       const data = await fetch(
         `/api/git?repoOwner=${repoOwner}&team=${team}`,
       ).then((response) => response.json());
