@@ -37,13 +37,25 @@ const Repo = ({
           <dl className="m-auto flex flex-col">
             <div className="gap-2 sm:grid sm:grid-cols-2">
               <dt className="text-lg text-slate-200">Open PRs:</dt>
-              <dd className="text-lg font-semibold">
-                {open_pull_request_count}
+              <dd>
+                <a
+                  className="w-fit text-lg font-semibold hover:text-slate-400"
+                  href={`https://github.com/${repoOwner}/${repoName}/pulls`}
+                >
+                  {open_pull_request_count}
+                </a>
               </dd>
             </div>
             <div className="gap-2 sm:grid sm:grid-cols-2">
               <dt className="text-lg text-slate-200">Branches:</dt>
-              <dd className="text-lg font-semibold">{branch_count}</dd>
+              <dd>
+                <a
+                  className="w-fit text-lg font-semibold hover:text-slate-400"
+                  href={`https://github.com/${repoOwner}/${repoName}/branches`}
+                >
+                  {branch_count}
+                </a>
+              </dd>
             </div>
           </dl>
           <div className="my-auto flex flex-col sm:grid sm:grid-cols-2 sm:gap-4">
