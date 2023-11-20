@@ -4,7 +4,6 @@ const Repo = ({
   repoOwner,
   getStatusColorClass,
   getStatusText,
-  index,
 }) => {
   const { branches, open_pull_request_count, branch_count } = data;
   const stagingBranchData = branches.staging ?? branches.test;
@@ -16,9 +15,7 @@ const Repo = ({
       {hasBranches && (
         <section
           key={repoName}
-          className={`grid grid-cols-3 p-5 sm:grid-cols-3 ${
-            index !== 0 ? 'border-t border-gray-300' : ''
-          }`}
+          className="repo grid grid-cols-3 p-5 sm:grid-cols-3"
         >
           <article>
             <h2>
