@@ -41,6 +41,8 @@ const Repo = ({
                 <a
                   className="w-fit text-lg font-semibold hover:text-slate-400"
                   href={`https://github.com/${repoOwner}/${repoName}/pulls`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {open_pull_request_count}
                 </a>
@@ -52,6 +54,8 @@ const Repo = ({
                 <a
                   className="w-fit text-lg font-semibold hover:text-slate-400"
                   href={`https://github.com/${repoOwner}/${repoName}/branches`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {branch_count}
                 </a>
